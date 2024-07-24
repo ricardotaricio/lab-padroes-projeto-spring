@@ -7,7 +7,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Cardapio {
@@ -18,14 +20,21 @@ public class Cardapio {
 	
 	private String nome;
 	
-	@OneToMany(mappedBy = "cardapio")
-	private List<ItemCardapio> itens = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(
+			name="cardapio_produto",
+		    joinColumns=
+		    	@JoinColumn(name="cardapio_id", referencedColumnName="id"),
+		    inverseJoinColumns=
+		        @JoinColumn(name="produto_id", referencedColumnName="id")
+		    )
+	private List<Produto> produtos = new ArrayList<Produto>();
 
-	public List<ItemCardapio> getItens() {
-		return itens;
+	public List<Produto> getProdutos() {
+		return produtos;
 	}
-	public void setItens(List<ItemCardapio> itens) {
-		this.itens = itens;
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}
 	public int getId() {
 		return id;

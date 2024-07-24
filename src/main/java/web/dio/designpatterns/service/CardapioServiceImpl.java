@@ -4,20 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import web.dio.designpatterns.entity.Cardapio;
-import web.dio.designpatterns.entity.ItemCardapio;
+import web.dio.designpatterns.entity.Produto;
 import web.dio.designpatterns.repository.CardapioRepository;
-import web.dio.designpatterns.repository.ItemCardapioRepository;
+import web.dio.designpatterns.repository.ProdutoRepository;
 
 @Service
 public class CardapioServiceImpl implements CardapioService {
 	@Autowired
 	private CardapioRepository cardapioRepository;
-
+	
 	@Autowired
-	private ItemCardapioRepository itemRepository;
+	private ProdutoRepository produtoRepository;
 
 	@Override
-	public Iterable<Cardapio> listarTodos() {
+	public Iterable<Cardapio> obterTodos() {
 		return cardapioRepository.findAll();
 	}
 	
@@ -27,17 +27,16 @@ public class CardapioServiceImpl implements CardapioService {
 	}
 	
 	@Override
-	public Cardapio listarPorId(int id) {
+	public Cardapio obterPorId(int id) {
 		return cardapioRepository.findById(id).get();
 	}
-	
-	@Override
-	public ItemCardapio inserirItem(int cardapioId, ItemCardapio item) {
-		Cardapio cardapio = cardapioRepository.findById(cardapioId).get();
 
-		item.setCardapio(cardapio);
-		item = itemRepository.save(item);
+	@Override
+	public Cardapio associarProduto(Integer cardapioId, Integer produtoId) {
+		Cardapio cardapio = cardapioRepository.findById(cardapioId).get();
+		Produto produto = produtoRepository.findById(produtoId).get();
 		
-		return item;
+		cardapio.getProdutos().add(produto);
+		return cardapioRepository.save(cardapio);
 	}
 }

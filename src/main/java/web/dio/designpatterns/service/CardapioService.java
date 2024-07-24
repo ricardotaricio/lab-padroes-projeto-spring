@@ -1,12 +1,12 @@
 package web.dio.designpatterns.service;
 
 import web.dio.designpatterns.entity.Cardapio;
-import web.dio.designpatterns.entity.ItemCardapio;
 
 public interface CardapioService {
 	
-	Iterable<Cardapio> listarTodos();
+	Iterable<Cardapio> obterTodos();
+	Cardapio obterPorId(int id);
 	Cardapio inserir(Cardapio cardapio);
-	Cardapio listarPorId(int id);
-	ItemCardapio inserirItem(int cardapioId, ItemCardapio item);
+	Cardapio associarProduto(Integer cardapioId, Integer produtoId);
+
 }
